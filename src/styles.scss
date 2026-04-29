@@ -38,3 +38,56 @@ body {
   margin: 0;
   height: 100%;
 }
+
+.card {
+  background-color: var(--mat-sys-surface-container-high);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.stat-title {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.badge {
+  background-color: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+}
+
+.badge-outline {
+  background-color: transparent;
+  border: 1px solid var(--mat-sys-outline);
+}
+
+.badge-secondary {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.progress {
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--mat-sys-surface-container-high);
+}
+
+.progress-primary {
+  background-color: var(--mat-sys-primary);
+}
