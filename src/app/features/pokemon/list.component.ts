@@ -8,42 +8,148 @@ import { Pokemon } from '../../core/models/pokemon.model';
   selector: 'app-pokemon-list',
   imports: [CommonModule, RouterLink],
   template: `
-    <div class="space-y-6">
-      <div>
-        <h1 class="text-2xl font-bold mb-1">Pokédex</h1>
-        <p class="text-on-surface-variant">Lista de Pokémon de la API</p>
+    <div class="pokedex-container">
+      <div class="header">
+        <h1>Pokédex</h1>
+        <p>Explora la colección de Pokémon</p>
       </div>
 
       @if (loading()) {
-        <div class="flex justify-center py-8">
-          <span class="loading loading-spinner loading-lg"></span>
+        <div class="loading">
+          <div class="spinner"></div>
         </div>
       } @else {
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div class="pokemon-grid">
           @for (pokemon of pokemon(); track pokemon.name) {
-            <a
-              [routerLink]="['/pokemon', pokemon.name]"
-              class="card bg-base-200 hover:bg-base-300 transition-colors cursor-pointer"
-            >
-              <div class="card-body p-4">
-                <span class="text-xs text-on-surface-variant">#{{ getId(pokemon.url) }}</span>
-                <h2 class="card-title text-lg capitalize">{{ pokemon.name }}</h2>
-              </div>
+            <a [routerLink]="['/pokemon', pokemon.name]" class="pokemon-card">
+              <span class="pokemon-number">#{{ getId(pokemon.url) }}</span>
+              <span class="pokemon-name capitalize">{{ pokemon.name }}</span>
             </a>
           }
         </div>
 
-        <div class="flex justify-center gap-4">
-          <button class="btn btn-primary" [disabled]="offset() === 0" (click)="previousPage()">
-            Anterior
+        <div class="pagination">
+          <button [disabled]="offset() === 0" (click)="previousPage()" class="nav-button">
+            ← Anterior
           </button>
-          <button class="btn btn-primary" [disabled]="pokemon().length < 20" (click)="nextPage()">
-            Siguiente
+          <button [disabled]="pokemon().length < 20" (click)="nextPage()" class="nav-button">
+            Siguiente →
           </button>
         </div>
       }
     </div>
   `,
+  styles: [
+    `
+      .pokedex-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+
+      .header {
+        margin-bottom: 2rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .header p {
+        color: var(--mat-sys-on-surface-variant);
+        margin: 0;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        padding: 3rem;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--mat-sys-surface-container-high);
+        border-top-color: var(--mat-sys-primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .pokemon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+
+      .pokemon-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        background: var(--mat-sys-surface-container-high);
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--mat-sys-on-surface);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .pokemon-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .pokemon-number {
+        font-size: 0.8rem;
+        color: var(--mat-sys-on-surface-variant);
+      }
+
+      .pokemon-name {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 0.25rem;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .nav-button {
+        padding: 0.5rem 1.5rem;
+        background: var(--mat-sys-primary-container);
+        color: var(--mat-sys-on-primary-container);
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+
+      .nav-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .nav-button:hover:not(:disabled) {
+        opacity: 0.9;
+      }
+
+      .capitalize {
+        text-transform: capitalize;
+      }
+    `,
+  ],
 })
 export class PokemonListComponent implements OnInit {
   private pokemonService = inject(PokemonService);
