@@ -16,7 +16,7 @@ import { PokemonDetail } from '../../core/models/pokemon.model';
           <span class="loading loading-spinner loading-lg"></span>
         </div>
       } @else if (pokemon()) {
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-2 gap-6">
           <div class="card bg-base-200">
             <div class="card-body items-center text-center">
               <h1 class="card-title text-4xl capitalize">{{ pokemon()!.name }}</h1>
